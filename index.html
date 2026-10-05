@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sheet Sniper — Export Any Web Table to Google Sheets or CSV</title>
+<meta name="description" content="Select any table on any web page and export it to Google Sheets or CSV. Handles merged cells, hidden columns, and cleans numbers and dates automatically.">
+<style>
+  :root {
+    --ink: #0f172a;
+    --muted: #4b5563;
+    --line: #e5e7eb;
+    --accent: #2563eb;
+    --accent-ink: #1d4ed8;
+    --bg: #ffffff;
+    --panel: #f8fafc;
+    --good: #047857;
+    --bad: #b91c1c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #e5e7eb; --muted: #9ca3af; --line: #334155;
+      --accent: #60a5fa; --accent-ink: #93c5fd; --bg: #0b1220; --panel: #111c31;
+      --good: #34d399; --bad: #f87171;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #e5e7eb; --muted: #9ca3af; --line: #334155;
+    --accent: #60a5fa; --accent-ink: #93c5fd; --bg: #0b1220; --panel: #111c31;
+    --good: #34d399; --bad: #f87171;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px; }
+
+  header { padding: 76px 0 56px; text-align: center; }
+  h1 { font-size: clamp(30px, 6vw, 46px); line-height: 1.1; margin: 0 0 14px; letter-spacing: -0.03em; }
+  .tagline { font-size: clamp(17px, 3vw, 20px); color: var(--muted); margin: 0 auto 30px; max-width: 30em; }
+  .cta {
+    display: inline-block; background: var(--accent); color: #fff; text-decoration: none;
+    font-weight: 600; padding: 13px 24px; border-radius: 8px;
+  }
+  .cta:hover { background: var(--accent-ink); }
+  .cta-note { display: block; color: var(--muted); font-size: 14px; margin-top: 12px; }
+
+  h2 { font-size: 24px; margin: 0 0 8px; letter-spacing: -0.02em; }
+  section { padding: 44px 0; border-top: 1px solid var(--line); }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
+  .card h3 { margin: 0 0 12px; font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .card.before h3 { color: var(--bad); }
+  .card.after h3 { color: var(--good); }
+  .card ul { margin: 0; padding-left: 18px; }
+  .card li { margin: 7px 0; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; }
+  .feature h3 { font-size: 16px; margin: 0 0 5px; }
+  .feature p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  th, td { border: 1px solid var(--line); padding: 10px 12px; text-align: left; }
+  th { font-weight: 600; }
+  td.yes { color: var(--good); font-weight: 600; }
+  td.no { color: var(--muted); }
+
+  .privacy { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px; }
+  .privacy p { margin: 0 0 10px; }
+  .privacy p:last-child { margin: 0; }
+
+  footer { padding: 34px 0 60px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; text-align: center; }
+  a { color: var(--accent); }
+
+  @media (max-width: 620px) { .compare { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <h1>Export any web table to Google Sheets or CSV</h1>
+  <p class="tagline">
+    Click a table on any page. Sheet Sniper pulls it out clean — merged cells unmerged,
+    hidden columns dropped, numbers and dates fixed.
+  </p>
+  <a class="cta" href="#" id="store-link">Buy Sheet Sniper — $19</a>
+  <span class="cta-note">One payment, no subscription. Manual install, no Chrome Web Store.
+  Full refund within 14 days.</span>
+</header>
+
+<section class="wrap">
+  <h2>Copy-paste loses the data. This doesn't.</h2>
+  <p class="sub">
+    The hard part isn't reading a table — it's what the table does to your numbers on
+    the way out.
+  </p>
+  <div class="compare">
+    <div class="card before">
+      <h3>Copy &amp; paste</h3>
+      <ul>
+        <li>1.234,56 → text</li>
+        <li>15.09.2026 → text</li>
+        <li>merged cells → shifted columns</li>
+        <li>hidden columns → pasted anyway</li>
+        <li>[17] footnotes → stuck to values</li>
+      </ul>
+    </div>
+    <div class="card after">
+      <h3>Sheet Sniper</h3>
+      <ul>
+        <li>1.234,56 → 1234.56</li>
+        <li>15.09.2026 → 2026-09-15</li>
+        <li>merged cells → filled in</li>
+        <li>hidden columns → dropped</li>
+        <li>footnotes → removed</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>What it handles</h2>
+  <div class="features">
+    <div class="feature">
+      <h3>Not just &lt;table&gt;</h3>
+      <p>Finds ARIA grids and div-based tables that other extensions miss. If it still can't see one, drag a box around it yourself.</p>
+    </div>
+    <div class="feature">
+      <h3>Column-aware cleanup</h3>
+      <p>Number format is decided per column, not per cell — the only way to know whether 1.234 is a thousand or a decimal.</p>
+    </div>
+    <div class="feature">
+      <h3>Turkish and US formats</h3>
+      <p>1.234,56 and 1,234.56 both land as real numbers. Dates become ISO, so they sort correctly.</p>
+    </div>
+    <div class="feature">
+      <h3>Excel-safe CSV</h3>
+      <p>RFC 4180 with a UTF-8 BOM, so accented and non-Latin characters survive the trip into Excel.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Pricing</h2>
+  <p class="sub">One payment. No subscription, no account, no server.</p>
+  <table>
+    <tr><th>&nbsp;</th><th>Sheet Sniper — $19</th></tr>
+    <tr><td>Exports</td><td class="yes">Unlimited</td></tr>
+    <tr><td>Rows per table</td><td class="yes">Unlimited</td></tr>
+    <tr><td>CSV download</td><td class="yes">Yes</td></tr>
+    <tr><td>Google Sheets export</td><td class="yes">Yes</td></tr>
+    <tr><td>Activations</td><td class="yes">5 computers</td></tr>
+  </table>
+  <p class="sub" style="margin-top:14px">Full refund within 14 days, no questions asked.</p>
+
+  <h2 style="margin-top:36px">Installing it</h2>
+  <p class="sub">Sheet Sniper is not sold through the Chrome Web Store, so installation is
+  a manual, one-time process — and worth knowing about before you buy.</p>
+  <div class="privacy">
+    <p>You unzip the download into a folder you keep, open <code>chrome://extensions</code>,
+    turn on Developer mode, click "Load unpacked" and select that folder. Then you paste
+    your licence key into the extension. Written instructions come with the download.</p>
+    <p><strong>Two consequences.</strong> Chrome shows a "Disable developer mode extensions"
+    notice on some startups — you dismiss it and carry on, but it keeps coming back. And
+    there is no auto-update: new versions arrive by email and you repeat the unzip step.</p>
+    <p>Works in Chrome, Edge, Brave and other Chromium-based browsers.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Privacy</h2>
+  <div class="privacy">
+    <p><strong>We have no servers.</strong> Finding the table, reading it and cleaning it all happen inside your browser. The contents of the pages you visit never reach us.</p>
+    <p>Choose CSV and the data never leaves your computer at all. Choose Google Sheets and the table goes straight from your browser into your own Google account, using a permission that only lets the extension touch files it created itself.</p>
+    <p>No analytics, no tracking, no profile of your browsing. <a href="privacy.html">Read the full privacy policy</a>.</p>
+  </div>
+</section>
+
+<footer class="wrap">
+  Sheet Sniper · <a href="privacy.html">Privacy</a> · <a href="mailto:og.appstudio@gmail.com">Support</a>
+</footer>
+
+<script>
+  // Tek satış kanalı Gumroad; mağaza dağıtımı yok. Alan adından bağımsız
+  // biçim kullanılıyor: satıcı alt alan adı kullanıcı adı değişince ölüyor.
+  var BUY_URL = 'https://gumroad.com/l/ieica';
+  var link = document.getElementById('store-link');
+  link.href = BUY_URL;
+  link.textContent = 'Buy Sheet Sniper — $19';
+</script>
+
+</body>
+</html>
